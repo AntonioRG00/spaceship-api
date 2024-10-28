@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  spaceship-api:
+    build: .
+    ports:
+      - "8080:8080"
+    depends_on:
+      - redis-server
+      - kafka
+  
+  redis-server:
+    image: bitnami/redis:latest
+    environment:
+       - REDIS_PASSWORD=MyRedisPassword
+    ports:
+      - "6379:6379"
+
+  kafka:
+    image: bitnami/kafka:latest
+    environment:
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_BROKER_ID=1
+      - KAFKA_LISTENERS=PLAINTEXT://:9092
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+    ports:
+      - "9092:9092"
+    depends_on:
+      - zookeeper
+
+  zookeeper:
+    image: bitnami/zookeeper:latest
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    ports:
+      - "2181:2181"
+
+networks:
+  default:
+    driver: bridge

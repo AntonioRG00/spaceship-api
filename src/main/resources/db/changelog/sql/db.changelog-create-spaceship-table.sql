@@ -1,0 +1,8 @@
+-- db/changelog/sql/db.changelog-create-spaceship-table.sql
+
+CREATE TABLE SPACESHIP (
+    ID NUMBER(32,0) AUTO_INCREMENT PRIMARY KEY,
+    SPACESHIP_NAME VARCHAR(255) NOT NULL,
+    MOVIE_NAME VARCHAR(255) NOT NULL,
+    MOVIE_YEAR NUMBER(8,0) NOT NULL
+);
